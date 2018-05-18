@@ -11,32 +11,49 @@ namespace GildedRose
 
         public static void IncreaseQuality(this Item item)
         {
-            var increaseAmount = 1;
+            int increaseAmount;
 
-            if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
+            switch (item.Name)
             {
-                
-                if (5 < item.SellIn && item.SellIn <= 10)
-                    increaseAmount = 2;
-                else if (item.SellIn <= 5)
-                    increaseAmount = 3;
+                case "Backstage passes to a TAFKAL80ETC concert":
+                    if (5 < item.SellIn && item.SellIn <= 10)
+                        increaseAmount = 2;
+                    else if (item.SellIn <= 5)
+                        increaseAmount = 3;
+                    else
+                        increaseAmount = 1;
+                    break;
+                default:
+                    increaseAmount = 1;
+                    break;
             }
 
-            if (item.Quality < 50)
-                item.Quality = Math.Min(item.Quality + increaseAmount, 50);
+            item.Quality = Math.Min(item.Quality + increaseAmount, 50);
         }
 
         public static void DecreaseSellIn(this Item item)
         {
-            if (!item.IsLegendary())
-                item.SellIn = item.SellIn - 1;
+            if (item.IsLegendary())
+                return;
+            item.SellIn = item.SellIn - 1;
         }
 
         public static void DecreaseQuality(this Item item)
         {
-            if (item.IsLegendary()) return;
-            if (item.Quality > 0)
-                item.Quality = item.Quality - 1;
+            if (item.IsLegendary())
+                return;
+            int decreaseAmount;
+            switch (item.Name)
+            {
+                case "Conjured Mana Cake":
+                    decreaseAmount = 2;
+                    break;
+                default:
+                    decreaseAmount = 1;
+                    break;
+            }
+
+            item.Quality = Math.Max(item.Quality - decreaseAmount, 0);
         }
 
         public static bool DoesIncreaseQuality(this Item item)

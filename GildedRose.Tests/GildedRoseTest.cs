@@ -64,11 +64,28 @@ namespace GildedRose.Tests
 
             var beforeSellByDelta = startQuality - items[0].Quality;
             var afterSellByDelta = startQuality - items[1].Quality;
-            Assert.That(afterSellByDelta.Equals(beforeSellByDelta * 2));
+            Assert.AreEqual(beforeSellByDelta * 2, afterSellByDelta);
         }
 
         [Test]
-        public void UpdateQuality_Item_QualityIsNeverGreater50([Range(0, 50)] int startQuality)
+        public void UpdateQuality_ConjuredItem_QualityDegradesTwice([Range(2, 50)] int startQuality)
+        {
+            IList<Item> items = new List<Item>
+            {
+                new Item { Name = "DEFAULT_ITEM", SellIn = 1, Quality = startQuality },
+                new Item { Name = "Conjured Mana Cake", SellIn = 1, Quality = startQuality }
+            };
+            var app = new GildedRose(items);
+
+            app.UpdateQuality();
+
+            var defaultQualityDelta = startQuality - items[0].Quality;
+            var conjuredQualityDelta = startQuality - items[1].Quality;
+            Assert.AreEqual(defaultQualityDelta * 2, conjuredQualityDelta);
+        }
+
+        [Test]
+        public void UpdateQuality_Item_QualityDoesNotIncreasePast50([Range(0, 50)] int startQuality)
         {
             IList<Item> items = new List<Item> { new Item { Name = "TEST", SellIn = 0, Quality = startQuality } };
             var app = new GildedRose(items);
