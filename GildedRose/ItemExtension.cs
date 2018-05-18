@@ -2,37 +2,27 @@ namespace GildedRose
 {
     public static class ItemExtension
     {
-        internal static void IncreaseQuality(this Item item)
+        internal static void UpdateSellIn(this Item item)
         {
-            item.GetUpdateStrategy().IncreaseQuality(item);
-        }
-
-        internal static void DecreaseSellIn(this Item item)
-        {
-            item.GetUpdateStrategy().DecreaseSellIn(item);
-        }
-
-        internal static void DecreaseQuality(this Item item)
-        {
-            item.GetUpdateStrategy().DecreaseQuality(item);
+            var strategy = item.GetUpdateStrategy();
+            strategy.UpdateSellIn(item);
         }
 
         public static void HandleExpiredSellIn(this Item item)
         {
-            item.GetUpdateStrategy().HandleExpiredSellIn(item);
+            var strategy = item.GetUpdateStrategy();
+            strategy.HandleExpiredSellIn(item);
         }
 
         public static void UpdateQuality(this Item item)
         {
-            if (item.GetUpdateStrategy().DoesIncreaseQuality)
-                item.IncreaseQuality();
-            else
-                item.DecreaseQuality();
+            var strategy = item.GetUpdateStrategy();
+            strategy.UpdateQuality(item);
         }
 
-        private static UpdateStrategy GetUpdateStrategy(this Item item)
+        private static IUpdatesItems GetUpdateStrategy(this Item item)
         {
-            if(item.Name.StartsWith("Backstage passes"))
+            if (item.Name.StartsWith("Backstage passes"))
                 return new BackstagePassStrategy();
             if (item.Name.StartsWith("Conjured"))
                 return new ConjuredItemStrategy();
@@ -40,7 +30,7 @@ namespace GildedRose
                 return new AgedBrieStrategy();
             if (item.Name == "Sulfuras, Hand of Ragnaros")
                 return new LegendaryItemStrategy();
-            return new UpdateStrategy();
+            return new DefaultUpdateStrategy();
         }
     }
 }

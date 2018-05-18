@@ -1,15 +1,28 @@
+using System;
+using GildedRose.Properties;
+
 namespace GildedRose
 {
-    internal class AgedBrieStrategy : UpdateStrategy
+    internal class AgedBrieStrategy : IUpdatesItems
     {
-        internal AgedBrieStrategy()
+        public void HandleExpiredSellIn(Item item)
         {
-            DoesIncreaseQuality = true;
+            IncreaseQuality(item);
         }
 
-        public override void HandleExpiredSellIn(Item item)
+        public void UpdateSellIn(Item item)
         {
-            item.IncreaseQuality();
+            item.SellIn -= 1;
+        }
+
+        public void UpdateQuality(Item item)
+        {
+            IncreaseQuality(item);
+        }
+
+        private static void IncreaseQuality(Item item)
+        {
+            item.Quality = Math.Min(item.Quality + 1, Resources.Item_MaxQuality);
         }
     }
 }

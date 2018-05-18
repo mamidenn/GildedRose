@@ -3,7 +3,7 @@ using GildedRose.Properties;
 
 namespace GildedRose
 {
-    internal class ConjuredItemStrategy : IUpdatesItems
+    internal class DefaultUpdateStrategy : IUpdatesItems
     {
         public void UpdateSellIn(Item item)
         {
@@ -22,7 +22,7 @@ namespace GildedRose
 
         private static void DecreaseQuality(Item item)
         {
-            item.Quality = Math.Max(item.Quality - 2, Resources.Item_MinQuality);
+            item.Quality = Math.Max(item.Quality - 1, Resources.Item_MinQuality);
         }
     }
 }

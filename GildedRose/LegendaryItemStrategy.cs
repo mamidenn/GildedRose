@@ -1,12 +1,16 @@
 namespace GildedRose
 {
-    internal class LegendaryItemStrategy : UpdateStrategy
+    internal class LegendaryItemStrategy : IUpdatesItems
     {
-        public override void DecreaseSellIn(Item item)
+        public void UpdateSellIn(Item item)
         {
         }
 
-        public override void DecreaseQuality(Item item)
+        public void HandleExpiredSellIn(Item item)
+        {
+        }
+
+        public void UpdateQuality(Item item)
         {
         }
     }

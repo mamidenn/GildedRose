@@ -4,7 +4,7 @@ namespace GildedRose
 {
     public class GildedRose
     {
-        private IList<Item> Items;
+        private readonly IList<Item> Items;
 
         public GildedRose(IList<Item> items)
         {
@@ -16,7 +16,7 @@ namespace GildedRose
             foreach (var item in Items)
             {
                 item.UpdateQuality();
-                item.DecreaseSellIn();
+                item.UpdateSellIn();
                 if (item.SellIn < 0)
                     item.HandleExpiredSellIn();
             }

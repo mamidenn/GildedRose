@@ -1,27 +1,31 @@
+using System;
+using GildedRose.Properties;
+
 namespace GildedRose
 {
-    internal class BackstagePassStrategy : UpdateStrategy
+    internal class BackstagePassStrategy : IUpdatesItems
     {
-        public BackstagePassStrategy()
+        public void HandleExpiredSellIn(Item item)
         {
-            DoesIncreaseQuality = true;
+            item.Quality = Resources.Item_MinQuality;
         }
 
-        public override void IncreaseQuality(Item item)
+        public void UpdateSellIn(Item item)
+        {
+            item.SellIn -= 1;
+        }
+
+        public void UpdateQuality(Item item)
         {
             int increaseAmount;
-            if (5 < item.SellIn && item.SellIn <= 10)
+            if (Resources.BackstagePass_SecondQualityIncreaseThreshold < item.SellIn
+                && item.SellIn <= Resources.BackstagePass_FirstQualityIncreaseThreshold)
                 increaseAmount = 2;
-            else if (item.SellIn <= 5)
+            else if (item.SellIn <= Resources.BackstagePass_SecondQualityIncreaseThreshold)
                 increaseAmount = 3;
             else
                 increaseAmount = 1;
-            IncreaseQuality(item, increaseAmount);
-        }
-
-        public override void HandleExpiredSellIn(Item item)
-        {
-            item.Quality = 0;
+            item.Quality = Math.Min(item.Quality + increaseAmount, Resources.Item_MaxQuality);
         }
     }
 }
