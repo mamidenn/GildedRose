@@ -45,9 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgedBrieStrategy.cs" />
+    <Compile Include="BackstagePassStrategy.cs" />
+    <Compile Include="ConjuredItemStrategy.cs" />
     <Compile Include="GildedRose.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="ItemExtension.cs" />
+    <Compile Include="UpdateStrategy.cs" />
+    <Compile Include="LegendaryItemStrategy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -15,14 +15,10 @@ namespace GildedRose
         {
             foreach (var item in Items)
             {
-                if (item.DoesIncreaseQuality())
-                    item.IncreaseQuality();
-                else
-                    item.DecreaseQuality();
-
+                item.UpdateQuality();
                 item.DecreaseSellIn();
-
-                if (item.SellIn < 0) item.HandleExpiredSellIn();
+                if (item.SellIn < 0)
+                    item.HandleExpiredSellIn();
             }
         }
     }
